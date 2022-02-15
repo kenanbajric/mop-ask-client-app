@@ -21,7 +21,7 @@ const HomePage = () => {
           <Row>
             <Col className="mt-4">
               <Container>
-                <h3>Top Users</h3>
+                <h3>Top 5 Users</h3>
                 <h5>John Doe</h5>
                 <p>Number od answers - 99</p>
                 <h5>John Doe</h5>
