@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, ListGroup, Badge } from "react-bootstrap";
+import { Container, ListGroup } from "react-bootstrap";
 import UserCard from "./Cards/UserCard";
 
 const TopUsers = () => {
