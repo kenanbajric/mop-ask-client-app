@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Form, Button } from "react-bootstrap";
 
-const SignUp = () => {
+import LoginContext from "../storage/login-context";
+
+const Login = () => {
+  const history = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const loginCtx = useContext(LoginContext);
 
   const [passwordHasErrors, setPasswordHasErrors] = useState(false);
 
@@ -37,7 +44,10 @@ const SignUp = () => {
         password: password,
       }),
     });
-    console.log(response);
+    const responseData = await response.json();
+    window.localStorage.setItem("Authorization", responseData.data.token);
+    loginCtx.login(responseData.data.userId);
+    history("/");
   };
 
   return (
@@ -50,13 +60,11 @@ const SignUp = () => {
           <Form.Label>Email address</Form.Label>
           <Form.Control
             type="email"
+            required
             placeholder="Enter email"
             onChange={emailInputChangeHandler}
             value={email}
           />
-          <Form.Text className="text-muted">
-            We'll never share your email with anyone else.
-          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -82,4 +90,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;

@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react";
+
+import LatestQuestions from "../components/LatestQuestions";
 
 const Questions = () => {
   return (
-    <div>Questions</div>
-  )
-}
+    <div className="mt-4">
+      <LatestQuestions showAnswers={true} showForm={true} />
+    </div>
+  );
+};
 
-export default Questions
+export default Questions;

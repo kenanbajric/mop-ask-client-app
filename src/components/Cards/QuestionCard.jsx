@@ -1,5 +1,7 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Card, ListGroup } from "react-bootstrap";
+
+import AnswerForm from "./AnswerForm";
 
 const QuestionCard = (props) => {
   // Would number of answers be displayed on Card
@@ -9,10 +11,34 @@ const QuestionCard = (props) => {
   }
 
   return (
-    <Card className="mt-3" key={props.id} id={props.id}>
+    <Card className="mt-3 shadow" key={props.id} id={props.id}>
       <Card.Body>
         <Card.Title>{props.title}</Card.Title>
-        {props.text && <Card.Text>{props.text}</Card.Text>}
+        {props.text && <Card.Text className="py-2">{props.text}</Card.Text>}
+        {props.showAnswers && (
+          <ListGroup variant="flush">
+            <Card.Text>Answers: </Card.Text>
+            {/* Answers */}
+            {props.answers.map((answer) => {
+              return (
+                <ListGroup.Item key={answer.id}>
+                  {answer.answer_text}
+                  {+answer.userId ===
+                    +window.localStorage.getItem("userId") && (
+                    <Fragment>
+                      <span className="btn btn-link">Edit</span>
+                      <span className="text-danger btn btn-link">Delete</span>
+                    </Fragment>
+                  )}
+                  <p className="text-muted small">
+                    Answered on {answer.createdAt.split("T")[0]}
+                  </p>
+                </ListGroup.Item>
+              );
+            })}
+          </ListGroup>
+        )}
+        {props.showForm && <AnswerForm questionId={props.id} />}
       </Card.Body>
       {showUpvotes && (
         <ListGroup className="list-group-flush">

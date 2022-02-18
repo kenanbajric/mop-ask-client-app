@@ -16,7 +16,6 @@ const TopUsers = () => {
     };
     fetchQuestions();
   }, []);
-  console.log(topUsersList);
 
   const topUsersCards = topUsersList.map((user) => {
     return (
