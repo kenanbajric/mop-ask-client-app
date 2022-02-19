@@ -13,8 +13,8 @@ export const LoginContextProvider = (props) => {
   };
 
   const loginHandler = (userId) => {
-    window.localStorage.setItem("userId", userId);
-    window.localStorage.setItem("isLoggedIn", true);
+    window.sessionStorage.setItem("userId", userId);
+    window.sessionStorage.setItem("isLoggedIn", true);
   };
 
   const logoutHandler = () => {};

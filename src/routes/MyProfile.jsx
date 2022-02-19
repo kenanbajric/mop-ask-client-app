@@ -2,8 +2,16 @@ import React, { useEffect, useState, useContext } from "react";
 import LoginContext from "../storage/login-context";
 import { Card, Button, Row } from "react-bootstrap";
 
+import CustomModal from "../components/CustomModal";
+
 const MyProfile = () => {
   const [myProfile, setMyProfile] = useState({});
+
+  // Handling Modal
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   const loginCtx = useContext(LoginContext);
   useEffect(() => {
@@ -40,12 +48,19 @@ const MyProfile = () => {
             </Button>
           </Row>
           <Row>
-            <Button className="mt-2 col-8 mx-auto" variant="danger">
+            <Button
+              className="mt-2 col-8 mx-auto"
+              variant="danger"
+              onClick={handleShow}
+            >
               Change password
             </Button>
           </Row>
         </Card.Body>
       </Card>
+
+      {/* Modal  */}
+      <CustomModal show={show} handleClose={handleClose} />
     </div>
   );
 };
