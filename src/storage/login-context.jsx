@@ -17,7 +17,10 @@ export const LoginContextProvider = (props) => {
     window.sessionStorage.setItem("isLoggedIn", true);
   };
 
-  const logoutHandler = () => {};
+  const logoutHandler = () => {
+    window.localStorage.clear()
+    window.sessionStorage.clear()
+  };
 
   const contextValue = {
     sendToken: sendToken,

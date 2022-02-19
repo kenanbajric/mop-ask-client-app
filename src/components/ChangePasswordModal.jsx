@@ -3,7 +3,7 @@ import { Modal, Button, Form } from "react-bootstrap";
 
 import LoginContext from "../storage/login-context";
 
-const CustomModal = (props) => {
+const ChangePasswordModal = (props) => {
   const loginCtx = useContext(LoginContext);
 
   const [oldPassword, setOldPassword] = useState("");
@@ -12,18 +12,23 @@ const CustomModal = (props) => {
 
   const [passwordHasError, setPasswordHasErrors] = useState(false);
   const [passwordMatched, setPasswordMatched] = useState(true);
+  const [oldPasswordMatched, setOldPasswordMatched] = useState(true);
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
 
   const changeOldPasswordHandler = (event) => {
     setOldPassword(event.target.value);
+    setOldPasswordMatched(true);
   };
   const changeNewPasswordHandler = (event) => {
     setNewPassword(event.target.value);
     if (event.target.value.length >= 5) {
       setPasswordHasErrors(false);
+      setPasswordMatched(true);
     }
   };
   const changeConfirmedNewPasswordHandler = (event) => {
     setConfirmedNewPassword(event.target.value);
+    setPasswordMatched(true);
     if (event.target.value.length >= 5) {
       setPasswordHasErrors(false);
     }
@@ -56,9 +61,21 @@ const CustomModal = (props) => {
     });
     const responseData = await response.json();
 
-    console.log(responseData);
+    console.log(responseData.data);
 
+    if (responseData.data.statusCode === 401) {
+      setOldPasswordMatched(false);
+      return;
+    } else if (responseData.data.statusCode === 201) {
+      setPasswordSuccess(true);
+    }
+
+    setOldPasswordMatched(true);
     setPasswordMatched(true);
+
+    setTimeout(() => {
+      props.handleClose();
+    }, 1000);
   };
 
   return (
@@ -78,6 +95,9 @@ const CustomModal = (props) => {
               value={oldPassword}
             />
           </Form.Group>
+          {!oldPasswordMatched && (
+            <p className="text-danger">Incorrect password!</p>
+          )}
 
           <Form.Group className="mb-3" controlId="formBasicNewPassword">
             <Form.Label>New Password</Form.Label>
@@ -106,22 +126,24 @@ const CustomModal = (props) => {
             </p>
           )}
           {!passwordMatched && (
-            <p className="text-danger">
-              New Password and Confirmed New Password does not match.
-            </p>
+            <p className="text-danger">Password does not match!</p>
           )}
         </Form>
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer className="justify-content-center">
         <Button variant="secondary" onClick={props.handleClose}>
           Close
         </Button>
         <Button type="submit" variant="primary" onClick={formSubmitionHandler}>
           Confirm Changes
         </Button>
+        <br></br>
+        {passwordSuccess && (
+          <p className="text-success">Password successfully changed!</p>
+        )}
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default CustomModal;
+export default ChangePasswordModal;

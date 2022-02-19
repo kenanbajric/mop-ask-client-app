@@ -38,7 +38,7 @@ const QuestionCard = (props) => {
               })}
             </ListGroup>
           )}
-          {props.showForm && <AnswerForm questionId={props.id} />}
+          {props.showForm && window.sessionStorage.isLoggedIn && <AnswerForm questionId={props.id} />}
         </Card.Body>
         {showUpvotes && (
           <ListGroup className="list-group-flush">

@@ -1,18 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
-import LoginContext from "../storage/login-context";
 import { Card, Button, Row } from "react-bootstrap";
 
-import CustomModal from "../components/CustomModal";
+import LoginContext from "../storage/login-context";
+import ChangePasswordModal from "../components/ChangePasswordModal";
+import EditUserModal from "../components/EditUserModal";
 
 const MyProfile = () => {
   const [myProfile, setMyProfile] = useState({});
 
-  // Handling Modal
-  const [show, setShow] = useState(false);
+  // Handling Password Change Modal
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const handleClosePasswordModal = () => setShowPasswordModal(false);
+  const handleShowPasswordModal = () => setShowPasswordModal(true);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  // Handling Edit User Modal
+  const [showEditUserModal, setShowEditUserModal] = useState(false);
+  const handleCloseEditUserModal = () => setShowEditUserModal(false);
+  const handleShowEditUserModal = () => setShowEditUserModal(true);
 
+  // Login
   const loginCtx = useContext(LoginContext);
   useEffect(() => {
     const token = loginCtx.sendToken();
@@ -43,15 +49,19 @@ const MyProfile = () => {
             Number of answers: {myProfile.number_of_answers}
           </Card.Text>
           <Row>
-            <Button className="mt-2 col-8 mx-auto" variant="primary">
-              Edit
+            <Button
+              className="mt-2 col-8 mx-auto"
+              variant="primary"
+              onClick={handleShowEditUserModal}
+            >
+              Edit information
             </Button>
           </Row>
           <Row>
             <Button
               className="mt-2 col-8 mx-auto"
               variant="danger"
-              onClick={handleShow}
+              onClick={handleShowPasswordModal}
             >
               Change password
             </Button>
@@ -60,7 +70,17 @@ const MyProfile = () => {
       </Card>
 
       {/* Modal  */}
-      <CustomModal show={show} handleClose={handleClose} />
+      <ChangePasswordModal
+        show={showPasswordModal}
+        handleClose={handleClosePasswordModal}
+      />
+      <EditUserModal
+        show={showEditUserModal}
+        handleClose={handleCloseEditUserModal}
+        firstName={myProfile.first_name}
+        lastName={myProfile.last_name}
+        email={myProfile.email}
+      />
     </div>
   );
 };

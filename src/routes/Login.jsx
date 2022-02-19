@@ -1,12 +1,10 @@
 import React, { useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 
 import { Form, Button } from "react-bootstrap";
 
 import LoginContext from "../storage/login-context";
 
 const Login = () => {
-  const history = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +46,7 @@ const Login = () => {
     window.localStorage.setItem("Authorization", responseData.data.token);
     loginCtx.login(responseData.data.userId);
 
-    history("/");
+    window.location.href = "/";
   };
 
   return (

@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Container, Navbar, Nav } from "react-bootstrap";
 
+import LoginContext from "../storage/login-context";
+
 const Navigation = () => {
+  const loginCtx = useContext(LoginContext);
+  // const isLoggedIn = window.sessionStorage.getItem("isLoggedIn");
+
   return (
     <Navbar sticky="top" bg="light" expand="lg">
       <Container fluid>
-        <Navbar.Brand className="text-danger" href="/">Ask.me</Navbar.Brand>
+        <Navbar.Brand className="text-danger" href="/">
+          Ask.me
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Nav className="me-auto">
           <Nav.Link href="questions">Questions</Nav.Link>
@@ -24,7 +31,7 @@ const Navigation = () => {
             <Nav.Link href="login">Login</Nav.Link>
           )}
           {window.sessionStorage.getItem("isLoggedIn") && (
-            <Nav.Link href="logout">Logout</Nav.Link>
+            <Nav.Link href="/" onClick={loginCtx.logout}>Logout</Nav.Link>
           )}
         </Nav>
       </Container>
