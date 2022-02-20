@@ -11,8 +11,23 @@ const LatestQuestions = (props) => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
-      const response = await fetch("http://localhost:5000/home");
+      const userId = await window.sessionStorage.getItem("userId");
+
+      const response = await fetch("http://localhost:5000/home", {
+        headers: {
+          userId: userId,
+        },
+      });
       const responseData = await response.json();
+
+      console.log(responseData.data);
+      if (responseData.data.notifications) {
+        if (responseData.data.notifications.length > 0) {
+          window.sessionStorage.setItem("newNotifications", true);
+        } else if (responseData.data.notifications.length === 0) {
+          window.sessionStorage.setItem("newNotifications", false);
+        }
+      }
 
       const latestQuestionData = [...responseData.data.latestQuestions];
 
@@ -29,6 +44,10 @@ const LatestQuestions = (props) => {
       `http://localhost:5000/home/loadmore?skip=${skip}&limit=20`
     );
     const responseData = await response.json();
+
+    if (responseData.data.newNotification === true) {
+      window.sessionStorage.setItem("newNotifications", true);
+    }
 
     setLatestQuestionsList((prevState) => [
       ...prevState,

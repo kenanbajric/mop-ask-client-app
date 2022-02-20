@@ -22,6 +22,12 @@ const Navigation = () => {
             )}
           </Nav>
           <Nav className="d-flex">
+
+            {window.sessionStorage.getItem("isLoggedIn") && window.sessionStorage.getItem("newNotifications") && 
+              <Nav.Link href="notifications" className="text-danger">
+                Notifications
+              </Nav.Link>
+            }
             {window.sessionStorage.getItem("isLoggedIn") && (
               <Nav.Link href="my-profile">My Profile</Nav.Link>
             )}

@@ -14,6 +14,8 @@ import MyProfile from "./routes/MyProfile";
 import Navigation from "./components/Navigation";
 import SignUp from "./routes/SignUp";
 import Login from "./routes/Login";
+import SingleQuestionPage from "./routes/SingleQuestionPage";
+import Notifications from "./routes/Notifications";
 
 const App = () => {
   return (
@@ -26,7 +28,9 @@ const App = () => {
           <Route path="/my-questions" element={<MyQuestions />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route path="/login" element={<Login /> } />
+          <Route path="/login" element={<Login />} />
+          <Route path="/notifications" element={<Notifications />} />
+          <Route path="/:id" element={<SingleQuestionPage />} />
         </Routes>
       </Router>
     </Container>

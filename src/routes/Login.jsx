@@ -5,11 +5,12 @@ import { Form, Button } from "react-bootstrap";
 import LoginContext from "../storage/login-context";
 
 const Login = () => {
+  const loginCtx = useContext(LoginContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginCtx = useContext(LoginContext);
+  const [loginFailed, setLoginFailed] = useState(false);
 
   const [passwordHasErrors, setPasswordHasErrors] = useState(false);
 
@@ -17,11 +18,14 @@ const Login = () => {
   // Email
   const emailInputChangeHandler = (event) => {
     setEmail(event.target.value);
+    setLoginFailed(false);
   };
 
   // Password
   const passwordInputChangeHandler = (event) => {
     setPassword(event.target.value);
+    setLoginFailed(false);
+
     if (event.target.value.length >= 5) {
       setPasswordHasErrors(false);
     }
@@ -43,10 +47,13 @@ const Login = () => {
       }),
     });
     const responseData = await response.json();
-    console.log(responseData)
+    if (responseData.data.statusCode === 401) {
+      setLoginFailed(true);
+      return;
+    }
+
     window.localStorage.setItem("Authorization", responseData.data.token);
     loginCtx.login(responseData.data.userId);
-
     window.location.href = "/";
   };
 
@@ -79,6 +86,11 @@ const Login = () => {
         {passwordHasErrors && (
           <p className="text-danger">
             Your password must be minimum 5 characters long.
+          </p>
+        )}
+        {loginFailed && (
+          <p className="mt-3 text-danger">
+            Please check your login credentials
           </p>
         )}
 

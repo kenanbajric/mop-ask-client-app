@@ -35,10 +35,15 @@ const QuestionCard = (props) => {
 
   const addAnswer = {};
 
+  const toSinglePage = () => {
+    window.location.href = `${props.id}`;
+  };
+
   return (
     <Card className="mt-3 shadow" key={props.id} id={props.id}>
       <Card.Body>
-        <Card.Title>{props.title}</Card.Title>
+        <Card.Title onClick={toSinglePage}>{props.title}</Card.Title>
+
         {props.text && <Card.Text className="py-2">{props.text}</Card.Text>}
         {props.showAnswers && (
           <ListGroup variant="flush">
