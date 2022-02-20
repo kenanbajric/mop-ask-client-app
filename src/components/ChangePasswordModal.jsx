@@ -34,6 +34,18 @@ const ChangePasswordModal = (props) => {
     }
   };
 
+  // Call handleClose function from parent component and reset all states
+  const closeModal = () => {
+    setOldPassword("");
+    setNewPassword("");
+    setConfirmedNewPassword("");
+    setPasswordHasErrors(false);
+    setPasswordMatched(true);
+    setOldPasswordMatched(true);
+    setPasswordSuccess(false);
+    props.handleClose();
+  };
+
   const formSubmitionHandler = async (event) => {
     event.preventDefault();
 
@@ -61,8 +73,6 @@ const ChangePasswordModal = (props) => {
     });
     const responseData = await response.json();
 
-    console.log(responseData.data);
-
     if (responseData.data.statusCode === 401) {
       setOldPasswordMatched(false);
       return;
@@ -74,12 +84,12 @@ const ChangePasswordModal = (props) => {
     setPasswordMatched(true);
 
     setTimeout(() => {
-      props.handleClose();
+      closeModal();
     }, 1000);
   };
 
   return (
-    <Modal show={props.show} onHide={props.handleClose}>
+    <Modal show={props.show} onHide={closeModal}>
       <Modal.Header closeButton>
         <Modal.Title>Change your password</Modal.Title>
       </Modal.Header>
@@ -131,7 +141,7 @@ const ChangePasswordModal = (props) => {
         </Form>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <Button variant="secondary" onClick={props.handleClose}>
+        <Button variant="secondary" onClick={closeModal}>
           Close
         </Button>
         <Button type="submit" variant="primary" onClick={formSubmitionHandler}>

@@ -13,15 +13,12 @@ const MyQuestions = () => {
 
   useEffect(() => {
     const token = loginCtx.sendToken();
-    console.log("token " + token);
     const fetchQuestions = async () => {
       const response = await fetch(
         "http://localhost:5000/questions/my-questions",
         { headers: { Authorization: "Bearer " + token } }
       );
       const responseData = await response.json();
-
-      console.log(responseData);
 
       const latestQuestionData = [...responseData.data.latestQuestions];
 
@@ -33,14 +30,16 @@ const MyQuestions = () => {
   const loadMoreQuestions = async () => {
     setIsFetching(true);
     const skip = latestQuestionsList.length;
+    const token = loginCtx.sendToken();
     const response = await fetch(
-      `http://localhost:5000/home/loadmore?skip=${skip}&limit=20`
+      `http://localhost:5000/questions/my-questions?skip=${skip}&limit=20`,
+      { headers: { Authorization: "Bearer " + token } }
     );
     const responseData = await response.json();
 
     setLatestQuestionsList((prevState) => [
       ...prevState,
-      ...responseData.data.loadedQuestions,
+      ...responseData.data.latestQuestions,
     ]);
     setIsFetching(false);
   };
@@ -55,8 +54,8 @@ const MyQuestions = () => {
         showAnswers={false}
         showForm={false}
         answers={question.answers}
-        creatorName={question.user.first_name || question.user.last_name}
         createdDate={question.createdAt.split("T")[0]}
+        upvotes={question.upvote}
       />
     );
   });

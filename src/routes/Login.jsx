@@ -43,6 +43,7 @@ const Login = () => {
       }),
     });
     const responseData = await response.json();
+    console.log(responseData)
     window.localStorage.setItem("Authorization", responseData.data.token);
     loginCtx.login(responseData.data.userId);
 

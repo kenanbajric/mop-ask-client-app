@@ -8,16 +8,26 @@ const Questions = () => {
   const [showQuestionModal, setShowQuestionModal] = useState(false);
   const handleCloseQuestionModal = () => setShowQuestionModal(false);
   const handleShowQuestionModal = () => setShowQuestionModal(true);
+  
 
   return (
     <Fragment>
       <div className="d-flex justify-content-center mt-4">
-        <Button className="my-2 col-4" variant="primary" onClick={handleShowQuestionModal}>
-          Ask anything
-        </Button>
+        {window.sessionStorage.getItem("isLoggedIn") && (
+          <Button
+            className="my-2 col-4"
+            variant="primary"
+            onClick={handleShowQuestionModal}
+          >
+            Ask anything
+          </Button>
+        )}
       </div>
       <LatestQuestions showAnswers={true} showForm={true} />
-      <QuestionModal show={showQuestionModal} handleClose={handleCloseQuestionModal} />
+      <QuestionModal
+        show={showQuestionModal}
+        handleClose={handleCloseQuestionModal}
+      />
     </Fragment>
   );
 };

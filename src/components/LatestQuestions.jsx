@@ -21,6 +21,7 @@ const LatestQuestions = (props) => {
     fetchQuestions();
   }, []);
 
+  // Ovaj i req u useEffect se mogu spojiti u jedan i onda samo u useEffect pozivati ovu funkciju.
   const loadMoreQuestions = async () => {
     setIsFetching(true);
     const skip = latestQuestionsList.length;
@@ -48,6 +49,7 @@ const LatestQuestions = (props) => {
         answers={question.answers}
         creatorName={question.user.first_name || question.user.last_name}
         createdDate={question.createdAt.split("T")[0]}
+        upvotes={question.upvote}
       />
     );
   });

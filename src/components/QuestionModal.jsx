@@ -58,10 +58,17 @@ const QuestionModal = (props) => {
     }, 1000);
   };
 
+  // Call handleClose function from parent component and reset title and text state
+  const closeModal = () => {
+    setTitle("");
+    setText("");
+    props.handleClose();
+  };
+
   return (
-    <Modal show={props.show} onHide={props.handleClose}>
+    <Modal show={props.show} onHide={closeModal}>
       <Modal.Header closeButton>
-        <Modal.Title>Change your password</Modal.Title>
+        <Modal.Title>Post your question</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form>
@@ -89,7 +96,7 @@ const QuestionModal = (props) => {
         </Form>
       </Modal.Body>
       <Modal.Footer className="justify-content-center">
-        <Button variant="secondary" onClick={props.handleClose}>
+        <Button variant="secondary" onClick={closeModal}>
           Close
         </Button>
         <Button type="submit" variant="primary" onClick={formSubmitHandler}>

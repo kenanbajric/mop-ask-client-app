@@ -19,8 +19,6 @@ const AnswerForm = (props) => {
 
     const token = loginCtx.sendToken();
 
-    console.log(props.questionId);
-
     // Sent request to API
     const response = await fetch(
       `http://localhost:5000/questions/${props.questionId}`,
@@ -40,6 +38,11 @@ const AnswerForm = (props) => {
     console.log(responseData);
 
     setAnswer("");
+
+    // Umjesto setTimeout treba dodati odgovor na ekran
+    setTimeout(() => {
+      window.location.reload();
+    }, 400);
   };
 
   return (
